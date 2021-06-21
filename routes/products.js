@@ -1,20 +1,24 @@
 const express = require("express");
 const data = require("./data");
- 
-router.get("/products", (req,res)=>{    res.json(products)
-})
 
-router.get("/products",(req,res)=>{
-    {...}
-})
+router.get("/products", (req, res) => {
+  res.json(products);
+});
 
+// router.get("/products",(req,res)=>{
+//     {...}
+// })
 
 // controllers import here
 
 const trailsControllers = require("../controllers/trailsControllers");
 
-const { trailCreate, trailDelete, trailsList, trailDetail } = require("../controllers/trailsControllers");
-
+const {
+  trailCreate,
+  trailDelete,
+  trailsList,
+  trailDetail,
+} = require("../controllers/trailsControllers");
 
 const router = express.Router();
 
