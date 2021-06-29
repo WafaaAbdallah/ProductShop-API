@@ -1,38 +1,38 @@
 const express = require("express");
-const data = require("./data");
+// const upload = require("../middleware/multer");
 
-router.get("/products", (req, res) => {
-  res.json(products);
-});
-
-// router.get("/products",(req,res)=>{
-//     {...}
-// })
-
-// controllers import here
-
-const trailsControllers = require("../controllers/trailsControllers");
-
-const {
-  trailCreate,
-  trailDelete,
-  trailsList,
-  trailDetail,
-} = require("../controllers/trailsControllers");
+// let products = require("../data");
 
 const router = express.Router();
 
-// to get the array of data
+const {
+  productCreate,
+  producList,
+  productDelete,
+  productUpdate,
+  fetchProduct,
+} = require("../controllers/productControllers");
 
-router.get("/", trailsList);
+router.param("productId", async (req, res, next, productId) => {
+  const product = await fetchProduct(productId, next);
+  if (product) {
+    req.product = product;
+    next();
+  } else {
+    const err = new Error("Product Not Found");
+    err.status = 404;
+    next(err);
+  }
+});
 
-// trails datail route
-router.get("/:trailId", trailDetail);
+//another way to import
+// const{productControllers} = require("../controllers/productControllers");
+router.get("/", producList);
 
-// trails delete route
-router.delete("/:trailId", trailDelete);
+router.post("/", productCreate);
 
-// trails create route
-router.post("/", trailCreate);
+router.delete("/:productId", productDelete);
+
+router.put("/:productId", productUpdate);
 
 module.exports = router;
